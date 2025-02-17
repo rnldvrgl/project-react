@@ -11,7 +11,7 @@ const ListingFilters = ({onChange}) => {
     }
     
   return (
-  <div className='flex flex-row items-center justify-center gap-2'>
+  <div className='flex flex-col items-center justify-center gap-2 lg:flex-row'>
     <Input className='w-[400px]' placeholder='Search destinations'value={search} onChange={(e) => setSearch(e.target.value)}/>
     <DateRangePicker placeholder='Add dates' value={dates} onChange={setDates} minDate={new Date()}/>
     <Stepper label='guest' value={guests} onChange={setGuests}/>

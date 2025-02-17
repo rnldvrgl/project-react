@@ -1,12 +1,12 @@
 'use client'
 
-import { isListingAvailable, listings as statisListings } from '@/api/data/listings';
+import { isListingAvailable, listings as staticListings } from '@/api/data/listings';
 import ListingFilters from '@/components/ListingFilters';
 import ListingList from '@/components/ListingList';
 import { Separator } from '@/components/ui';
 import { useState } from 'react';
 const HomePage = () => {
-  const [listings, setListings] = useState(statisListings)
+  const [listings, setListings] = useState(staticListings)
    
    const handleFilters = (filters) => {
     const { dates, guests, search } = filters;

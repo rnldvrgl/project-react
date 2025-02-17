@@ -1,7 +1,7 @@
 import { Button, DateRangePicker, Input, Stepper } from "@/components/ui"
 import { Search } from 'lucide-react'
 import { useState } from "react"
-const ListingFilters = () => {
+const ListingFilters = ({onChange}) => {
     const [dates, setDates] = useState()
     const [guests, setGuests] = useState(0)
     const [search, setSearch] = useState('')

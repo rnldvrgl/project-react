@@ -7,19 +7,37 @@ import {
 } from '@/api/data/listings';
 import ListingFilters from '@/components/ListingFilters';
 import ListingList from '@/components/ListingList';
-import { Separator } from '@/components/ui';
+import { Separator, Spinner } from '@/components/ui';
 import { useEffect, useState } from 'react';
 const HomePage = () => {
   const [listings, setListings] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     const fetchListings = async () => {
-      const response = await api.get('/api/listings');
-      setListings(response.data);
-      console.log('Fetching listings...', response.data);
+      try {
+        const response = await api.get('/api/listings');
+
+        setListings(response.data);
+      } catch (error) {
+        setIsError(true);
+      } finally {
+        setIsLoading(false);
+      }
     };
     fetchListings();
   }, []);
+
+  const renderListingList = () => {
+    if (isLoading) {
+        <div className='flex justify-center'>
+          <Spinner size='sm' />
+        </div>
+    }
+    
+    return <ListingList listings={listings} />;
+  }
 
   const handleFilters = (filters) => {
     const { dates, guests, search } = filters;
@@ -57,7 +75,7 @@ const HomePage = () => {
         <ListingFilters onChange={handleFilters} />
         <Separator className='my-4' />
       </div>
-      <ListingList listings={listings} />
+      {renderListingList()}
     </div>
   );
 };

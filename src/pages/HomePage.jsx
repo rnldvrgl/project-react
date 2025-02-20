@@ -1,14 +1,27 @@
-'use client'
+'use client';
 
-import { isListingAvailable, listings as staticListings } from '@/api/data/listings';
+import api from '@/api';
+import {
+  isListingAvailable,
+  listings as staticListings,
+} from '@/api/data/listings';
 import ListingFilters from '@/components/ListingFilters';
 import ListingList from '@/components/ListingList';
 import { Separator } from '@/components/ui';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 const HomePage = () => {
-  const [listings, setListings] = useState(staticListings)
-   
-   const handleFilters = (filters) => {
+  const [listings, setListings] = useState([]);
+
+  useEffect(() => {
+    const fetchListings = async () => {
+      const response = await api.get('/api/listings');
+      setListings(response.data);
+      console.log('Fetching listings...', response.data);
+    };
+    fetchListings();
+  }, []);
+
+  const handleFilters = (filters) => {
     const { dates, guests, search } = filters;
 
     // Resets filters by using static listings
@@ -37,16 +50,16 @@ const HomePage = () => {
 
     setListings(filteredListings);
   };
-  
-   return (
-     <div className='container py-4'>
+
+  return (
+    <div className='container py-4'>
       <div className='mb-4'>
-        <ListingFilters onChange={handleFilters}/>
+        <ListingFilters onChange={handleFilters} />
         <Separator className='my-4' />
       </div>
-        <ListingList listings={listings} />
-     </div>
-  )
-}
+      <ListingList listings={listings} />
+    </div>
+  );
+};
 
-export default HomePage
+export default HomePage;

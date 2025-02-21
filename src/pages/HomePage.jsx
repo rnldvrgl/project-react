@@ -12,16 +12,19 @@ import { useEffect, useState } from 'react';
 const HomePage = () => {
   const [listings, setListings] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchListings = async () => {
+      setIsLoading(true);
+      setError(null);
+
       try {
         const response = await api.get('/api/listings');
 
         setListings(response.data);
       } catch (error) {
-        setIsError(true);
+        setError('Something went wrong. Please try again later.');
       } finally {
         setIsLoading(false);
       }
@@ -35,6 +38,11 @@ const HomePage = () => {
           <Spinner size='sm' />
         </div>
     }
+
+    if (error) {
+      return <div className='text-center'>{error}</div>;
+    }
+
     
     return <ListingList listings={listings} />;
   }

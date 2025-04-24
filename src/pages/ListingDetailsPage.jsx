@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 
+import DataRenderer from '@/components/DataRenderer';
 import ListingDetailsCard from '@/components/ListingDetailsCard';
-import { Spinner } from '@/components/ui';
 import useFetch from '@/hooks/useFetch';
 
 const ListingDetailsPage = () => {
@@ -13,23 +13,11 @@ const ListingDetailsPage = () => {
     isLoading,
   } = useFetch(`/api/listings/${listingId}`);
 
-  const renderListing = () => {
-    if (isLoading) {
-      return (
-        <div className='flex justify-center'>
-          <Spinner size='sm' />
-        </div>
-      );
-    }
-
-    if (error) {
-      return <div className='text-center'>{error}</div>;
-    }
-
-    return <ListingDetailsCard listing={listing} />;
-  };
-
-  return <div className='container py-4'>{renderListing()}</div>;
+  return <div className='container py-4'>
+    <DataRenderer isLoading={isLoading} error={error}>
+      <ListingDetailsCard listing={listing} />
+    </DataRenderer>
+  </div>;
 };
 
 export default ListingDetailsPage;

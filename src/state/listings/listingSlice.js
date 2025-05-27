@@ -7,6 +7,25 @@ const listingSlice = createSlice({
   name: 'listings',
   initialState,
   reducers: {},
+  extraReducers(builder) {
+    builder
+      .addCase(fetchListings.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchListings.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        // Add any fetched listings to the array
+        state.listings = action.payload;
+      })
+      .addCase(fetchListings.rejected, (state, action) => {
+        if (axios.isCansel(action.payload)) {
+          return;
+        }
+
+        state.status = 'failed';
+        state.error = action.error.message;
+      });
+  },
 });
 
 export const fetchListings = createAsyncThunk(

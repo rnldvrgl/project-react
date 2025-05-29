@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   listings: [],
-  favoriteListings: [],
+  favoriteListingIds: [],
   error: null,
   status: 'idle',
 };

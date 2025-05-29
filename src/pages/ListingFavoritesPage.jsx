@@ -9,7 +9,8 @@ const ListingFavoritesPage = () => {
   );
 
   const favoriteListings = useMemo(
-    () => listings.filter((listing) => favoriteListingIds.includes(listing.id)),
+    () =>
+      listings.filter((listing) => favoriteListingIds?.includes(listing.id)),
     [listings, favoriteListingIds],
   );
 

@@ -3,6 +3,6 @@ import listingsReducer from './listings/listingSlice';
 
 export const store = configureStore({
   reducer: {
-    listing: listingsReducer,
+    listings: listingsReducer,
   },
 });

@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 const initialState = { listings: [], error: null, status: 'idle' };
 
-const listingSlice = createSlice({
+const listingsSlice = createSlice({
   name: 'listings',
   initialState,
   reducers: {},
@@ -36,4 +36,4 @@ export const fetchListings = createAsyncThunk(
   },
 );
 
-export default listingSlice.reducer;
+export default listingsSlice.reducer;

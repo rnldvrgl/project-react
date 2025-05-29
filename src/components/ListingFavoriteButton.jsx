@@ -16,7 +16,7 @@ const ListingFavoriteButton = ({ className, listing }) => {
   const dispatch = useDispatch();
 
   const isFavorite = useMemo(
-    () => favoriteListingIds.includes(listing.id),
+    () => favoriteListingIds?.includes(listing.id),
     [listing, favoriteListingIds],
   );
 

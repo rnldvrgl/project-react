@@ -1,7 +1,7 @@
 import api from '@/api';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-const initialState = { listings: [], error: null, loading: 'idle' };
+const initialState = { listings: [], error: null, status: 'idle' };
 
 const listingSlice = createSlice({
   name: 'listings',
@@ -18,12 +18,12 @@ const listingSlice = createSlice({
         state.listings = action.payload;
       })
       .addCase(fetchListings.rejected, (state, action) => {
-        if (axios.isCansel(action.payload)) {
+        if (axios.Cancel(action.payload)) {
           return;
         }
 
         state.status = 'failed';
-        state.error = action.error.message;
+        state.error = action.payload.message;
       });
   },
 });

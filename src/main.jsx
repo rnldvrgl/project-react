@@ -4,6 +4,7 @@ import { store } from '@/state/store';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 
+import AuthProvider from './components/AuthProvider';
 import './index.css';
 import Router from './Router';
 
@@ -12,8 +13,10 @@ seedLocalDatabase();
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <ThemeProvider>
-  <Provider store={store}>
-      <Router />
-  </Provider>
+    <Provider store={store}>
+      <AuthProvider>
+        <Router />
+      </AuthProvider>
+    </Provider>
   </ThemeProvider>,
 );

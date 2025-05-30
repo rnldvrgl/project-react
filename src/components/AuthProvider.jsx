@@ -1,4 +1,6 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
+
+import api from '@/api';
 
 const AuthContext = createContext(undefined);
 
@@ -14,6 +16,19 @@ export const useAuth = () => {
 
 const AuthProvider = ({ children }) => {
   const [token, setToken] = useState();
+
+  useEffect(() => {
+    const fetchMe = async () => {
+      try {
+        const response = await api.get('/api/me');
+        setToken(response.data.accessToken);
+      } catch {
+        setToken(null);
+      }
+    };
+
+    fetchMe();
+  }, []);
 
   return (
     <AuthContext.Provider value={{ token, setToken }}>

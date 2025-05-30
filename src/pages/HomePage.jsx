@@ -17,9 +17,12 @@ const HomePage = () => {
     search: '',
   });
 
-  const fetchOptions = useMemo(() => ({
-    params: filters
-  }), [filters])
+  const fetchOptions = useMemo(
+    () => ({
+      params: filters,
+    }),
+    [filters],
+  );
 
   useEffect(() => {
     const request = dispatch(fetchListings(fetchOptions));
@@ -30,9 +33,8 @@ const HomePage = () => {
   }, [dispatch, fetchOptions]);
 
   const handleFilters = useCallback((filters) => {
-    setFilters(filters)
-  }, [])
-  
+    setFilters(filters);
+  }, []);
 
   return (
     <div className='container py-4'>

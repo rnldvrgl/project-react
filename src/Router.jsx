@@ -6,6 +6,7 @@ import ListingFavoritesPage from '@/pages/ListingFavoritesPage';
 import NotFoundPage from '@/pages/NotFoundPage';
 
 import App from './App';
+import SignInPage from './pages/SignInPage';
 
 const router = createBrowserRouter([
   {
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <NotFoundPage />,
     children: [
+      {
+        path: '/signin',
+        element: <SignInPage />,
+      },
       {
         path: '/',
         element: <HomePage />,

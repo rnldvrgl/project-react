@@ -1,12 +1,14 @@
-import { seedLocalDatabase } from '@/api/data/seed';
-import ThemeProvider from '@/components/ThemeProvider';
-import { store } from '@/state/store';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 
+import { seedLocalDatabase } from '@/api/data/seed';
+import ThemeProvider from '@/components/ThemeProvider';
+import { store } from '@/state/store';
+
 import AuthProvider from './components/AuthProvider';
-import './index.css';
 import Router from './Router';
+
+import './index.css';
 
 // DO NOT REMOVE: Seeds the local storage database with data
 seedLocalDatabase();

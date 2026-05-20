@@ -989,7 +989,7 @@ const AuthProvider = ({ children }) => {
     return () => {
       api.interceptors.response.eject(refreshInterceptor);
     };
-  }, []);
+  }, [token]);
 
   return (
     <AuthContext.Provider value={{ token, setToken }}>

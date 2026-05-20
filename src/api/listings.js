@@ -1,5 +1,5 @@
 import { isListingAvailable } from './data/listings';
-import { getDatabaseTable } from './helpers';
+import { getDatabaseTable, setDatabaseTable } from './helpers';
 
 // Gets listing by id
 export const getListingById = (id) => {
@@ -48,4 +48,27 @@ export const getListings = (params = {}) => {
   }
 
   return filteredListings;
+};
+
+// Creates a listing
+export const createListing = (data) => {
+  const listings = getDatabaseTable('listings');
+  if (!listings) {
+    console.log('No listings table found');
+    return;
+  }
+
+  const newListing = {
+    ...data,
+    createdAt: new Date(),
+    modifiedAt: new Date(),
+    userId: 1,
+    id: listings.length + 1,
+  };
+
+  listings.push(newListing);
+
+  setDatabaseTable('listings', listings);
+
+  return newListing;
 };

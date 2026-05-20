@@ -395,7 +395,10 @@ const ListingDetailsPage = () => {
           signal: abortController.current?.signal,
         });
         setListing(response.data);
-      } catch {
+      } catch (error) {
+        if (axios.isCancel(error)) {
+          return;
+        }
         setError('Something went wrong. Please try again later.');
       } finally {
         setIsLoading(false);

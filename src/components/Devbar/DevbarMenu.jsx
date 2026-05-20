@@ -26,10 +26,12 @@ const DevbarMenu = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end'>
-        <DropdownMenuItem>
-          <ExternalLink className='mr-2 h-4 w-4' />
-          Course
-        </DropdownMenuItem>
+        <a href={env.COURSE_URL} target='_blank' rel='noreferrer'>
+          <DropdownMenuItem>
+            <ExternalLink className='mr-2 h-4 w-4' />
+            Course
+          </DropdownMenuItem>
+        </a>
         <a href={env.DISCORD_URL} target='_blank' rel='noreferrer'>
           <DropdownMenuItem>
             <User className='mr-2 h-4 w-4' />

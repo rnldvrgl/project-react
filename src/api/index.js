@@ -5,14 +5,16 @@ import Cookies from 'js-cookie';
 import { env } from '@/lib/env';
 
 import {
+  cleanUser,
   generateAccessToken,
   generateRefreshToken,
   verifyToken,
   withAuth,
 } from './helpers';
-import { getListingById, getListings } from './listings';
+import { createListing, getListingById, getListings } from './listings';
 import { getLocationById } from './locations';
-import { getUser } from './users';
+import { getReviewsByListingId } from './reviews';
+import { getUser, getUserById } from './users';
 
 // Creates a base axios instance
 const api = axios.create({
@@ -60,6 +62,28 @@ adapter.onGet('/api/listings').reply(
   }),
 );
 
+// Creates a listing
+adapter.onPost('/api/listings').reply(
+  withAuth(async (config) => {
+    const { data } = config;
+
+    const listing = createListing(JSON.parse(data));
+
+    return [200, listing];
+  }),
+);
+
+// Gets reviews for a listing
+adapter.onGet('/api/reviews').reply(
+  withAuth(async (config) => {
+    const { params } = config;
+
+    const reviews = getReviewsByListingId(params.listingId);
+
+    return [200, reviews];
+  }),
+);
+
 // Gets the current user
 adapter.onGet('/api/me').reply(
   withAuth(async (config) => {
@@ -83,11 +107,14 @@ adapter.onGet('/api/me').reply(
       return [403, { message: 'Unauthorized' }];
     }
 
+    const user = getUserById(refreshTokenPayload.data);
+
     // Returns access token and user
     return [
       200,
       {
         accessToken: env.USE_AUTH ? accessToken : null,
+        user: env.USE_AUTH ? cleanUser(user) : null,
       },
     ];
   }),
@@ -114,6 +141,7 @@ adapter.onPost('/api/signin').reply(async (config) => {
       200,
       {
         accessToken: env.USE_AUTH ? accessToken : null,
+        user: env.USE_AUTH ? cleanUser(user) : null,
       },
     ];
   } else {
@@ -135,10 +163,13 @@ adapter.onGet('/api/refreshToken').reply(async () => {
     return [403, { message: 'Invalid refresh token' }];
   }
 
+  // Gets user by id
+  const user = getUserById(refreshTokenPayload.data);
+
   // Generates a new access token based on refresh token
   const accessToken = await generateAccessToken(refreshToken);
 
-  return [200, env.USE_AUTH ? { accessToken } : null];
+  return [200, env.USE_AUTH ? { accessToken, user: cleanUser(user) } : null];
 });
 
 // Signs the user out
